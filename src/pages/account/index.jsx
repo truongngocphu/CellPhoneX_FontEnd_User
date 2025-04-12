@@ -16,7 +16,7 @@ import Password from "antd/es/input/Password";
 import bcrypt from 'bcryptjs-react';
 import { CheckCircleOutlined, CrownOutlined, DeleteOutlined, ExclamationCircleOutlined, EyeOutlined, HourglassOutlined, LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { v4 as uuidv4 } from 'uuid';
-import { uploadImg } from "../../services/uploadAPI";
+import { deleteImg, uploadImg } from "../../services/uploadAPI";
 import { handleHuyOrder, historyOrderByIdKH } from "../../services/orderAPI";
 // import moment from "moment/moment";
 import moment from 'moment-timezone';
@@ -68,14 +68,19 @@ const Account = () => {
         
         const isMatch = await bcrypt.compare(password, matKhauCu); // So sánh password nhập vào với mật khẩu đã mã hóa
 
-        const hinhAnh = imageUrl.split('/').pop();
-        console.log("hinhAnh: ",hinhAnh);
+        if (!imageUrl) {
+            notification.error({
+                message: 'Lỗi validate',
+                description: 'Vui lòng upload Ảnh'
+            })
+            return;
+        }
         
 
         if (isMatch) {
             console.log("Mật khẩu cũ chính xác. Cập nhật mật khẩu mới...");
 
-            const res = await doiThongTinKH(_idAcc, fullName, email, phone, address, passwordMoi, hinhAnh)
+            const res = await doiThongTinKH(_idAcc, fullName, email, phone, address, passwordMoi, imageUrl.url)
             if(res && res.data) {
                 message.success(res.message)
                 message.success('Yêu cầu đăng nhập lại!')
@@ -123,7 +128,7 @@ const Account = () => {
                         uid: uuidv4(),
                         name: dataAcc.image, // Tên file
                         status: 'done', // Trạng thái
-                        url: `${import.meta.env.VITE_BACKEND_URL}/uploads/${dataAcc.image}`, // Đường dẫn đến hình ảnh
+                        url: dataAcc.image, // Đường dẫn đến hình ảnh
                     },
                 ]);
             }              
@@ -136,7 +141,11 @@ const Account = () => {
                 image: dataAcc?.image,                                
             }
             console.log("init: ", init);
-            setImageUrl(dataAcc?.image)    
+            // setImageUrl(dataAcc?.image)   
+            setImageUrl({
+                url: dataAcc?.image,
+                public_id: "", // hoặc null nếu không có
+            });  
             formAcc.setFieldsValue(init);            
         }
         return () => {
@@ -158,9 +167,68 @@ const Account = () => {
           navigate('/')
         }
     }
+    const handleUploadFileImage = async ({ file, onSuccess, onError }) => {
+        try {
+            const res = await uploadImg(file);
+        
+            if (!res || !res.data || !res.data.url) {
+                throw new Error("Không có url trong phản hồi từ server.");
+            }
+        
+            const { url, type, public_id } = res.data;
+        
+            // Gán lại cho Ant Design Upload hiển thị ảnh preview
+            file.url = url;
+            file.public_id = public_id; // 👈 Gắn vào file để có thể xóa
+
+            // setImageUrl(url);
+            setImageUrl({ url, public_id });
+
+            // ✅ Cập nhật fileList cho Upload để hiển thị ảnh mới
+            setFileList([
+                {
+                    uid: file.uid,
+                    name: file.name,
+                    status: "done",
+                    url: url,
+                    public_id: public_id,
+                },
+            ]);
+        
+            onSuccess({
+                url,
+                public_id, // 👈 thêm dòng này để Upload giữ lại
+                type,
+            });
+        } catch (error) {
+            console.error("Lỗi upload:", error);
+            onError(error);
+        }
+    };
+    // xóa ảnh cloudinary
+    const handleRemoveFile = async (file, type) => {
+        try {
+            const public_id = file.public_id;
+            console.log("public_id: ", public_id);
+            
+    
+            if (public_id) {
+                await deleteImg(public_id); // Gọi API xóa ảnh ở server
+                message.success("Xoá ảnh thành công");
+            }
+    
+            if (type === "thumbnail") {
+                setImageUrl(""); // hoặc setImageUrl(null);
+            }           
+           
+        } catch (error) {
+            console.error("Lỗi khi xoá ảnh:", error);
+            message.error("Xoá ảnh thất bại");
+        }
+    };
 
     // upload ảnh    
-    const handleUploadFileImage = async ({ file, onSuccess, onError }) => {
+    const handleUploadFileImage1 = async ({ file, onSuccess, onError }) => {
 
         setLoading(true);
         try {
@@ -205,7 +273,7 @@ const Account = () => {
             message.error(`${info.file.name} upload file thất bại!`);
         }
     };
-    const handleRemoveFile = (file) => {
+    const handleRemoveFile1 = (file) => {
         setFileList([]); // Reset fileList khi xóa file
         setImageUrl(''); // Reset URL khi xóa file
         message.success(`${file.name} đã được xóa`);
@@ -608,7 +676,7 @@ const Account = () => {
                                         <Form.Item name="_idAcc" hidden><Input hidden /></Form.Item>
                                         <Col span={24} md={24} sm={24} xs={24}>
                                             <Form.Item name="_idAcc" style={{textAlign: "center"}}>
-                                                <Avatar size={150} src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${imageUrl}`} /> 
+                                                <Avatar size={150} src={imageUrl.url} /> 
                                                 <p className="mt-4" style={{ color: '#ff6600', marginRight: '8px', fontSize: "30px"}}>                                                    
                                                     {renderMemberRank(dataAcc?.hangTV)}
                                                 </p>
@@ -681,7 +749,10 @@ const Account = () => {
                                                     customRequest={handleUploadFileImage}
                                                     beforeUpload={beforeUpload}
                                                     onChange={handleChange}
-                                                    onRemove={handleRemoveFile}
+                                                    // onRemove={handleRemoveFile}
+                                                    onRemove={(file) =>
+                                                        handleRemoveFile(file, "thumbnail")
+                                                    }
                                                     fileList={fileList} // Gán danh sách file
                                                     onPreview={handlePreview}
                                                 >

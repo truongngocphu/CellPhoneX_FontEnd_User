@@ -11,6 +11,7 @@ import { doLoginActionCart } from '../../redux/order/orderSlice';
 import { doLoginActionWishlist } from '../../redux/wishlist/wishlistSlice';
 import { GoogleLogin } from '@react-oauth/google';
 import "./login.scss"
+import LoginGoogle from '../../components/Header/LoginGoogle';
 const Login = () => {
 
     const [form] = Form.useForm()
@@ -133,6 +134,18 @@ const Login = () => {
         return password;
     };
 
+    // Xử lý Google login
+    const handleGoogleLogin = ({ token, user }) => {
+        // Lưu token giống như login thường
+        localStorage.setItem("access_token", token)
+        // Dispatch user về Redux
+        dispatch(doLoginAction(user))
+        dispatch(doLoginActionCart({ customerId: user._id }))
+        dispatch(doLoginActionWishlist({ customerId: user._id }))
+        message.success('Đăng nhập thành công bằng Google!')
+        navigate('/')
+    }
+
     return (
         <>
             <div className="rts-navigation-area-breadcrumb bg_light-1">
@@ -162,11 +175,13 @@ const Login = () => {
                             <div className="registration-wrapper-1">
                                 <img className="icon" src="https://static-account.cellphones.com.vn/_nuxt/img/Shipper_CPS3.77d4065.png" alt="cps-logo"></img>
                                 <h3 className="title">Đăng nhập với</h3>
-                                <div className="login-with-brand">
+                                {/* <div className="login-with-brand">
                                     <a href="#" className="single">
                                         <img src={icongoogle} alt="login" />
                                     </a>
-                                </div>
+                                </div> */}
+                                 {/* <Divider style={{margin:"10px 0"}}>Có thể</Divider> */}
+                                 <LoginGoogle onLoginSuccess={handleGoogleLogin} />
                                 <h3 className="title">hoặc</h3>
                                 <Form
                                     form={form}
@@ -240,6 +255,7 @@ const Login = () => {
                                         </Button>
                                     </Form.Item>
 
+                                   
                                     <div className="another-way-to-registration">
                                         {/* <div className="registradion-top-text">
                                             <span>&nbsp; HOẶC  &nbsp;</span>

@@ -574,7 +574,7 @@ const Home = () => {
                                           }}
                                           // href={`/all-product-category?IdLoaiSP=${item._id}`} 
                                           className="thumbnail">
-                                          <img src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.Image}`} alt="category" />
+                                          <img src={item.Image} alt="category" />
                                         </a>
                                         <div className="inner-content-category">
                                           <p>{item.TenLoaiSP}</p>
@@ -636,7 +636,7 @@ const Home = () => {
                               )}
 
                               <img
-                                src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.Image}`}
+                                src={item.Image}
                                 alt={item.TenSP}
                                 className="product-card__image"
                                 onClick={() => handleRedirectLayIdDeXemDetailPageUrl(item)} style={{ width: "200px", height: "200px" }}
@@ -794,7 +794,7 @@ const Home = () => {
                                   className="thumbnail"
                                 >
                                   <img
-                                    src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${product.Image}`}
+                                    src={product.Image}
                                     alt={product.TenSP}
                                     className="product-image"
                                   />
@@ -899,7 +899,7 @@ const Home = () => {
                         return (
                           <div className="single-product-list">
                             <a onClick={() => handleRedirectLayIdDeXemDetailPageUrl(item)} className="thumbnail">
-                              <img style={{ width: "80px" }} src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.Image}`} alt="grocery" />
+                              <img style={{ width: "80px" }} src={item.Image} alt="grocery" />
                             </a>
                             <div className="body-content">
                               <div className="top">
@@ -962,7 +962,7 @@ const Home = () => {
                         return (
                           <div className="single-product-list">
                             <a onClick={() => handleRedirectLayIdDeXemDetailPageUrl(item)} className="thumbnail">
-                              <img style={{ width: "80px" }} src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.Image}`} alt="grocery" />
+                              <img style={{ width: "80px" }} src={item.Image} alt="grocery" />
                             </a>
                             <div className="body-content">
                               <div className="top">
@@ -1025,7 +1025,7 @@ const Home = () => {
                         return (
                           <div className="single-product-list">
                             <a onClick={() => handleRedirectLayIdDeXemDetailPageUrl(item)} className="thumbnail">
-                              <img style={{ width: "80px" }} src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.Image}`} alt="grocery" />
+                              <img style={{ width: "80px" }} src={item.Image} alt="grocery" />
                             </a>
                             <div className="body-content">
                               <div className="top">
@@ -1089,7 +1089,7 @@ const Home = () => {
                         return (
                           <div className="single-product-list">
                             <a onClick={() => handleRedirectLayIdDeXemDetailPageUrl(item)} className="thumbnail">
-                              <img style={{ width: "80px" }} src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.Image}`} alt="grocery" />
+                              <img style={{ width: "80px" }} src={item.Image} alt="grocery" />
                             </a>
                             <div className="body-content">
                               <div className="top">

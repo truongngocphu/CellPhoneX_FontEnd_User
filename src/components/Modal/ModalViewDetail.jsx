@@ -82,8 +82,8 @@ const ModalViewDetail = (props) => {
 
     // Biến đổi mảng tên file thành các URL ảnh
     const images = dataDetailSP?.ImageSlider?.map(imageName => ({
-        original: `${imageBaseUrl}${imageName}`,
-        thumbnail: `${imageBaseUrl}${imageName}`,  // Nếu bạn có ảnh thumbnail riêng, thay đổi cho phù hợp
+        original: imageName,
+        thumbnail: imageName,  // Nếu bạn có ảnh thumbnail riêng, thay đổi cho phù hợp
     })) ?? [];
 
 

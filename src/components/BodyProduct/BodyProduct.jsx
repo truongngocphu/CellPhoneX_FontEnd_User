@@ -213,7 +213,7 @@ const BodyProduct = (props) => {
                                                 className="thumbnail"
                                             >
                                                 <img
-                                                    src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.Image}`}
+                                                    src={item.Image}
                                                     alt={item.TenSP}
                                                     className="product-image"
                                                 />

@@ -252,12 +252,12 @@ const DetailProduct = () => {
         setCurrentQuantity(value)
     };
 
-    const imageBaseUrl = `${import.meta.env.VITE_BACKEND_URL}/uploads/`;
 
     // Biến đổi mảng tên file thành các URL ảnh
     const images = dataDetailSP?.ImageSlider?.map(imageName => ({
-        original: `${imageBaseUrl}${imageName}`,
-        thumbnail: `${imageBaseUrl}${imageName}`,  // Nếu bạn có ảnh thumbnail riêng, thay đổi cho phù hợp
+        original: imageName,
+        thumbnail: imageName,
+         // Nếu bạn có ảnh thumbnail riêng, thay đổi cho phù hợp
     })) ?? [];
 
 
@@ -540,7 +540,7 @@ const DetailProduct = () => {
                                                                 >
                                                                     <img
                                                                         className="fly-product-image"
-                                                                        src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${dataDetailSP?.Image}`}
+                                                                        src={dataDetailSP?.Image}
                                                                         alt={dataDetailSP?.TenSP}
                                                                     />
                                                                 </CSSTransition>
@@ -741,7 +741,7 @@ const DetailProduct = () => {
                                                 className="thumbnail"
                                             >
                                                 <img
-                                                    src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.Image}`}
+                                                    src={item.Image}
                                                     alt={item.TenSP}
                                                     className="product-image"
                                                 />

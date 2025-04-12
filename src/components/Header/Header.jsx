@@ -196,7 +196,7 @@ const Header = () => {
                                                             }}
                                                             className="menu-item"
                                                         >
-                                                            <img width={50} src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.Image}`} alt="icons" />
+                                                            <img width={50} src={item.Image} alt="icons" />
                                                             <span>{item.TenLoaiSP}</span>
                                                         </a>
                                                     </li>
@@ -240,7 +240,7 @@ const Header = () => {
                                                             <div className="cart-item-1 border-top" key={item._id}>
                                                                 <div className="img-name">
                                                                     <div className="thumbanil">
-                                                                        <img src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.detail.Image}`} alt="" />
+                                                                        <img src={item.detail.Image} alt="" />
                                                                     </div>
                                                                     <div className="details">
                                                                         <a onClick={() => handleRedirectLayIdDeXemDetailPageUrl(item.detail)}>

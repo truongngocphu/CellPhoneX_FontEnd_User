@@ -131,7 +131,7 @@ const WishList = () => {
                                                 </Tooltip>
                                             </div>
                                             <div className="anh" style={{width:"64px"}}>
-                                                <img src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.detail.Image}`} alt="shop" />
+                                                <img src={item.detail.Image} alt="shop" />
                                             </div>
                                             <div className="information">
                                                 <h6 style={{cursor: "pointer", fontSize:"16px"}} onClick={() => handleRedirectLayIdDeXemDetailPageUrl(item.detail)} className="title">{item.detail.TenSP}</h6>

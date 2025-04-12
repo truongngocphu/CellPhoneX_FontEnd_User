@@ -304,7 +304,7 @@ const AllProduct = () => {
                   <div className="product-card shadow-sm rounded">
                     <div className="product-image-wrapper">
                       <img
-                        src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.Image}`}
+                        src={item.Image}
                         alt={item.TenSP}
                         className="product-image"
                       />

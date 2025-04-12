@@ -375,7 +375,7 @@ const Checkout = () => {
                                 <div className="single-shop-list">
                                     <div className="left-area">
                                     <a style={{border: "1px solid green"}} className="thumbnail">
-                                        <img src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.detail.Image}`} alt="" />
+                                        <img src={item.detail.Image} alt="" />
                                     </a>
                                     <a className="title" style={{maxWidth: "80%"}}>
                                         {item.detail.TenSP}
@@ -448,7 +448,7 @@ const Checkout = () => {
                             size="large" 
                             style={{cursor: "pointer", border: "none", height: "50px"}} 
                             onClick={() => form.submit()} 
-                            className="rts-btn btn-primary">Xác nhận đặt hàng</Button>
+                            className="rts-btn ">Xác nhận đặt hàng</Button>
                         </div>
                         </div>
                     </div>

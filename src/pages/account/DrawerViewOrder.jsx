@@ -49,7 +49,7 @@ const DrawerViewOrder = (props) => {
                     return (
                         <>
                         <div className="single-latest-post-area">
-                            <img style={{width:"80px"}} src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item?._idSP.Image}`} alt="thumbnail" />                            
+                            <img style={{width:"80px"}} src={item?._idSP.Image} alt="thumbnail" />                            
                             <div className="inner-content-area">
                                 <a>
                                     <h5 className="title-sm-blog" style={{fontSize:"14px"}}>

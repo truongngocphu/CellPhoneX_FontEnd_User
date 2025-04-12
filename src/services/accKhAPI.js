@@ -32,24 +32,8 @@ export const doiThongTinKH = (_idAcc, fullName, email, phone, address, passwordM
     })
 }
 
-// export const loginGG = (idToken ) => {
-//     return axios.post('/api/acckh/auth/google', {
-//         idToken 
-//     })
-// }
-// export const loginGG = (idToken) => {
-//     // Send the idToken to your backend to verify the user's identity
-//     return axios.post('/api/acckh/auth/google', {
-//         idToken,  // Send the ID token received from Google login
-//     })
-//     .then(response => {
-//         // Handle the successful response from the backend
-//         console.log('Google login successful', response.data);
-//         return response.data;  // Return data to handle it in the frontend
-//     })
-//     .catch(error => {
-//         // Handle error in case of failure
-//         console.error('Error logging in with Google:', error);
-//         throw error;  // You may throw or return a specific error message here
-//     });
-// };
+export const LoginGG = (idToken) => {
+    return axios.post('/api/auth/google', {
+        idToken
+    })
+}
