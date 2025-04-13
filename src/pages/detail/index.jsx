@@ -668,12 +668,244 @@ const DetailProduct = () => {
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="tab-pane fade" id="review-tab-pane" role="tabpanel">
-                                                <div className="tab-content-inner">
-                                                    {/* Đánh giá sẽ được giữ nguyên logic của bạn */}
-                                                    {/* Chỉ tinh chỉnh giao diện nếu cần */}
-                                                </div>
-                                            </div>
+                                            <div className="tab-pane fade" id="profile-tab-panes" role="tabpanel" aria-labelledby="profile-tabt" tabIndex={0}>
+                                <div className="single-tab-content-shop-details">
+                                <div className="product-details-review-product-style">
+                                    <div className="average-stars-area-left">                                
+                                        <div className="review-charts-details">
+                                            <Row gutter={[35,20]}>
+                                                <h3></h3>
+                                                <Col md={12} sm={12} xs={12} style={{position: "relative", left: 10}}>
+                                                    <span>
+                                                        <Rate value={5} disabled style={{display: "inline-block"}} /> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <span className='txt-count-sao'>{starCount[5] || 0} &nbsp; Luợt đánh giá</span>
+                                                    </span> <br/>
+                                                    <span>
+                                                        <Rate value={4} disabled style={{display: "inline-block"}} /> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <span className='txt-count-sao'>{starCount[4] || 0} &nbsp; Luợt đánh giá</span>
+                                                    </span> <br/>
+                                                    <span>
+                                                        <Rate value={3} disabled style={{display: "inline-block"}} /> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <span className='txt-count-sao'>{starCount[3] || 0} &nbsp; Luợt đánh giá</span>
+                                                    </span> <br/>
+                                                    <span>
+                                                        <Rate value={2} disabled style={{display: "inline-block"}} /> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <span className='txt-count-sao'>{starCount[2] || 0} &nbsp; Luợt đánh giá</span>
+                                                    </span> <br/>
+                                                    <span>
+                                                        <Rate value={1} disabled style={{display: "inline-block"}} /> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <span className='txt-count-sao'>{starCount[1] || 0} &nbsp; Luợt đánh giá</span>
+                                                    </span>                                           
+                                                    <br/>
+                                                    <Divider/>
+                                                </Col>
+
+                                                <Col md={12} sm={24} xs={24} style={{position: "relative", left: 10}}>                                                                                                
+                                                    <Form
+                                                        form={formComment}
+                                                        className="submit-review-area"                                
+                                                        // layout="vertical"    
+                                                        style={{width: "800px"}}                           
+                                                        onFinish={handleComment} 
+                                                    >
+                                                        <h3 className="title">Đánh giá tại đây</h3>                                    
+                                                        <Row gutter={[10,5]}>
+                                                            <Col span={24} md={24} sm={24} xs={24}>
+                                                                <Form.Item
+                                                                    label="Đánh giá của bạn về sản phẩm này:"
+                                                                    name="rating"
+                                                                    rules={[{ required: true, message: 'Vui lòng chọn đánh giá sao!' }]} // Bắt buộc người dùng phải chọn đánh giá sao
+                                                                >
+                                                                    <Rate tooltips={tooltips} className='ratee' />
+                                                                </Form.Item>
+                                                            </Col>
+                                                            <Col span={24} md={24} sm={24} xs={24}>
+                                                                <Form.Item
+                                                                    label="Viết đánh giá"                                        
+                                                                    name="note"                                                
+                                                                    rules={[
+                                                                        {
+                                                                            required: false,
+                                                                            // message: 'Vui lòng nhập đầy đủ thông tin!',
+                                                                        },  
+                                                                                                            
+                                                                    ]}
+                                                                    hasFeedback
+                                                                >
+                                                                    <Input.TextArea style={{ width: "100%", maxWidth: 400 }}  placeholder="abc"  autoSize={{ minRows: 5, maxRows: 10000 }} />
+                                                                </Form.Item>
+                                                            </Col>                                                                                
+                                                        </Row>
+                                                    </Form>   
+                                                    <Row style={{position: "relative", alignItems:"center"}}>
+                                                        {isAuthenticated ? <>
+                                                            <Col span={16} xs={24} sm={24} style={{margin: "auto"}}>
+                                                                <button style={{color: "white"}} onClick={() => formComment.submit()} className="rts-btn btn-primary">Bình Luận</button>
+                                                            </Col>
+                                                        </> : <>
+                                                            <Col span={16} xs={24} sm={24} style={{margin: "auto"}}>
+                                                                <button style={{color: "white"}} onClick={() => handleLoginNotification()} className="rts-btn btn-primary">Bình Luận</button>
+                                                            </Col>
+                                                        </>}
+                                                    </Row>
+                                                </Col>
+
+                                                <Col md={24} sm={24} xs={24}>                                        
+                                                    {dataComment?.map((item, index) => {
+                                                        return (
+                                                            <>
+                                                                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item?.idKH?.image}`} size={60} icon={<UserOutlined />} />
+                                                                <span style={{paddingLeft: "15px", fontWeight: "bold", fontSize: "20px"}}>{item?.idKH?.fullName} </span> &nbsp;<br/>
+                                                                <span
+                                                                style={{
+                                                                    position: "relative",
+                                                                    left: 70,
+                                                                    fontSize: "18px",
+                                                                    maxWidth: "500px", // Giới hạn chiều rộng tối đa
+                                                                    wordWrap: "break-word", // Tự động xuống dòng
+                                                                    whiteSpace: "normal", // Cho phép xuống dòng
+                                                                    display: "block", // Hiển thị như block để áp dụng maxWidth hiệu quả
+                                                                }}                                                               
+                                                                >
+                                                                ( {new Date(item.createdAt).toLocaleString()})
+                                                                </span>
+                                                                
+                                                                {customerId === item?.idKH?._id ? 
+                                                                <Tooltip title="xóa bình luận này" color={'green'} key={'green'}>
+                                                                    <RiDeleteBin6Line 
+                                                                    onClick={() => handleDeleteComment(item?._id)}
+                                                                    style={{color: "red", cursor: "pointer", position: "relative", left: 100}} 
+                                                                    size={25} /> 
+                                                                </Tooltip>
+                                                                : ''}
+                                                                <Rate style={{position: "relative", left: 70}} value={item?.soSaoDanhGia} disabled />                                                                         
+                                                                <span 
+                                                                style={{
+                                                                    position: "relative",
+                                                                    left: 70,
+                                                                    fontSize: "18px",
+                                                                    maxWidth: "500px", // Giới hạn chiều rộng tối đa
+                                                                    wordWrap: "break-word", // Tự động xuống dòng
+                                                                    whiteSpace: "normal", // Cho phép xuống dòng
+                                                                    display: "block", // Hiển thị như block để áp dụng maxWidth hiệu quả
+                                                                }}
+                                                                >{item?.title}</span>      
+                                                                <Divider/>                                                                                                           
+                                                            </>
+                                                        )
+                                                    })}
+                                                </Col>   
+
+                                                {totalCmt !== 0 ? <>
+                                                <Col span={24} style={{margin: "auto"}}>
+                                                    <Pagination                                                                              
+                                                        responsive
+                                                        current={currentCmt}
+                                                        pageSize={pageSizeCmt}
+                                                        total={totalCmt}
+                                                        onChange={(p, s) => handleOnchangePageCMT({ current: p, pageSize: s })} // Gọi hàm onChangePagination khi thay đổi trang
+                                                        // onChange={(page, pageSize) => onChangePagination(page, pageSize)}  // Gọi hàm onChangePagination khi thay đổi trang
+                                                        showSizeChanger={true}
+                                                        showQuickJumper={true}
+                                                        showTotal={(total, range) => (
+                                                            <div>{range[0]}-{range[1]} trên {total} bình luận</div>
+                                                        )}
+                                                        locale={{
+                                                            items_per_page: 'dòng / trang',  // Điều chỉnh "items per page"
+                                                            jump_to: 'Đến trang số',  // Điều chỉnh "Go to"
+                                                            jump_to_confirm: 'Xác nhận',  // Điều chỉnh "Go"
+                                                            page: '',  // Bỏ hoặc thay đổi chữ "Page" nếu cần
+                                                        }}
+                                                    /> 
+                                                </Col>                                                                   
+                                                </> : ''}    
+
+                                            </Row>                                            
+                                        </div>
+                                    </div>
+
+
+                                    <div className="submit-review-area">
+                                    {/* <Form
+                                        form={formComment}
+                                        className="submit-review-area"                                
+                                        // layout="vertical"    
+                                        style={{width: "800px"}}                           
+                                        onFinish={handleComment} 
+                                    >
+                                        <h5 className="title">Đánh giá tại đây</h5>                                    
+                                        <Row gutter={[10,5]}>
+                                            <Col span={24} md={24} sm={24} xs={24}>
+                                                <Form.Item
+                                                    label="Đánh giá của bạn về sản phẩm này:"
+                                                    name="rating"
+                                                    rules={[{ required: true, message: 'Vui lòng chọn đánh giá sao!' }]} // Bắt buộc người dùng phải chọn đánh giá sao
+                                                >
+                                                    <Rate className='ratee' />
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span={24} md={24} sm={24} xs={24}>
+                                                <Form.Item
+                                                    label="Viết đánh giá"                                        
+                                                    name="note"                                                
+                                                    rules={[
+                                                        {
+                                                            required: false,
+                                                            // message: 'Vui lòng nhập đầy đủ thông tin!',
+                                                        },  
+                                                                                            
+                                                    ]}
+                                                    hasFeedback
+                                                >
+                                                    <Input.TextArea placeholder="abc"  autoSize={{ minRows: 3, maxRows: 10000 }} />
+                                                </Form.Item>
+                                            </Col>                                                                                
+                                        </Row>
+                                    </Form>   
+                                    <Row>
+                                        {isAuthenticated ? <>
+                                            <Col span={16} style={{margin: "auto"}}>
+                                                <button onClick={() => formComment.submit()} className="rts-btn btn-primary">Bình Luận</button>
+                                            </Col>
+                                        </> : <>
+                                            <Col span={16} style={{margin: "auto"}}>
+                                                <button onClick={() => handleLoginNotification()} className="rts-btn btn-primary">Bình Luận</button>
+                                            </Col>
+                                        </>}
+                                    </Row> 
+                                    <br/>  */}   
+                                    {/* <Row gutter={[10,5]} style={{width: "100%"}}>                         
+                                    {totalCmt !== 0 ? <>
+                                        <Col span={24} style={{margin: "auto"}}>
+                                            <Pagination                                                                              
+                                                responsive
+                                                current={currentCmt}
+                                                pageSize={pageSizeCmt}
+                                                total={totalCmt}
+                                                onChange={(p, s) => handleOnchangePageCMT({ current: p, pageSize: s })} // Gọi hàm onChangePagination khi thay đổi trang
+                                                // onChange={(page, pageSize) => onChangePagination(page, pageSize)}  // Gọi hàm onChangePagination khi thay đổi trang
+                                                showSizeChanger={true}
+                                                showQuickJumper={true}
+                                                showTotal={(total, range) => (
+                                                    <div>{range[0]}-{range[1]} trên {total} bình luận</div>
+                                                )}
+                                                locale={{
+                                                    items_per_page: 'dòng / trang',  // Điều chỉnh "items per page"
+                                                    jump_to: 'Đến trang số',  // Điều chỉnh "Go to"
+                                                    jump_to_confirm: 'Xác nhận',  // Điều chỉnh "Go"
+                                                    page: '',  // Bỏ hoặc thay đổi chữ "Page" nếu cần
+                                                }}
+                                            /> 
+                                        </Col>                                                                   
+                                        </> : ''}
+                                        </Row> */}
+                                    </div>
+
+
+                                </div>
+                                </div>
+                            </div>
+
                                         </div>
                                     </div>
                                 </div>
